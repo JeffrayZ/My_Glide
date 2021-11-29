@@ -44,7 +44,7 @@ public class Value {
     }
 
     /**
-     * value 已经被使用了
+     * value 已经被使用过了
      */
     public void noMoreUseAction() {
         if (count-- <= 0 && callback != null) {

@@ -28,7 +28,7 @@ public class RequestTarget implements LifecycleCallback, ValueCallback, MemoryCa
     private Context context;
     private String url;
 
-    // 图片连接对应的key
+    // 图片连接对应的key,编码后的
     private String key;
     private ImageView imageView;
 
@@ -153,10 +153,15 @@ public class RequestTarget implements LifecycleCallback, ValueCallback, MemoryCa
             imageView.setImageBitmap(value.getBitmap());
         }
 
-        // 设置key   ---- 唯一标识
+        /*// 设置key   ---- 唯一标识
         value.setKey(key);
-        // 保存到活动缓存
-        activeCache.put(key, value);
+        // 保存到活动缓存   好像不需要这么操作，暂时先注释掉
+        activeCache.put(key, value);*/
+
+
+
+        // 保存到磁盘缓存中
+        diskLruCache.put(key, value);
     }
 
     @Override

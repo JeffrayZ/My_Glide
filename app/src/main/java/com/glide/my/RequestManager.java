@@ -48,6 +48,9 @@ public class RequestManager {
             fragmentByTag = new AndroidXRequestManagerFragment(target);
             supportFragmentManager.beginTransaction().add(fragmentByTag,FRAGMENT_TAG_1).commitAllowingStateLoss();
         }
+        // fragmentManager.beginTransaction().add之后立马get是拿不到fragment的，
+        // 因为此时的add任务是发送的handler的队列中的，只有从队列中取出执行了，才会get到fragment。
+        // 所以通过Handler发送消息的方式拿刚add进去的fragment
         mHandler.sendEmptyMessage(ID_REMOVE_FRAGMENT_MANAGER);
     }
 
@@ -64,6 +67,7 @@ public class RequestManager {
             fragmentByTag = new AndroidRequestManagerFragment(target);
             fragmentManager.beginTransaction().add(fragmentByTag,FRAGMENT_TAG_2).commitAllowingStateLoss();
         }
+        mHandler.sendEmptyMessage(ID_REMOVE_FRAGMENT_MANAGER);
     }
 
     private Handler mHandler = new Handler(Looper.getMainLooper(), new Handler.Callback() {

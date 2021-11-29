@@ -1,6 +1,7 @@
 package com.glide.my.cache;
 
 import android.graphics.Bitmap;
+import android.os.Build;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -53,7 +54,12 @@ public class MemoryCache extends LruCache<String, Value> {
 //        bitmap.getByteCount();
 //        int result = bitmap.getAllocationByteCount();
 
-        return bitmap.getAllocationByteCount();
+        int sdkInt = Build.VERSION.SDK_INT;
+        if (sdkInt >= Build.VERSION_CODES.KITKAT) {
+            return bitmap.getAllocationByteCount();
+        }
+
+        return bitmap.getByteCount();
     }
 
     // lru算法中，被移除会调用这个方法
